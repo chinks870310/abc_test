@@ -1,0 +1,83 @@
+swagger: '2.0'
+info:
+  title: ABC Bank API-Jtecsx
+  version: 0.0.1
+basePath: /Jtecsx
+paths:
+  '/transaction/{id}':
+    get:
+      tags:
+        - transaction
+      summary: 'Find a model instance by {{id}} from the data source.'
+      operationId: transaction.findById
+      parameters:
+        - name: id
+          in: path
+          description: Model id
+          required: true
+          type: string
+          format: JSON
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            $ref: '#/definitions/transaction'
+      deprecated: false
+definitions:
+  x-any:
+    properties: {}
+  transaction:
+    description: ''
+    properties:
+      account_no:
+        type: string
+      from_bank:
+        type: string
+      to_bank:
+        type: string
+      trx_date:
+        type: string
+      amount:
+        type: string
+    required:
+      - account_no
+    additionalProperties: false
+schemes:
+  - https
+consumes:
+  - application/json
+  - application/x-www-form-urlencoded
+  - application/xml
+  - text/xml
+produces:
+  - application/json
+  - application/xml
+  - text/xml
+  - application/javascript
+  - text/javascript
+x-ibm-configuration:
+  assembly:
+    execute:
+      - set-variable:
+          actions:
+            - set: message.headers.Authorization
+              value: >-
+                Basic
+                YXBwY29udXNlcjAxOjE3ZGIzZDI0LTYxMmMtNGZiOS1hMDU2LWZiNjNlODMyNTg2OA==
+      - invoke:
+          target-url: >-
+            https://apis-6.appconnect.ibmcloud.com$(request.path)$(request.search)
+          verb: keep
+  cors:
+    enabled: true
+securityDefinitions:
+  client_id:
+    type: apiKey
+    in: header
+    name: X-IBM-Client-Id
+    x-key-type: clientId
+security:
+  - client_id: []
+tags:
+  - name: transaction
+    description: ''
